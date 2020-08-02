@@ -1,8 +1,8 @@
 <h1 align="center">Chào mừng đến với app Hệ Thống Nhận Diện Tổn Thương Ung Thư Vú Trên Nhũ Ảnh 👋</h1>
 
 > Hệ thống tự động nhận diện tổn thương ung thư vú dựa trên nhũ ảnh<br /> `Sử dụng deep learning` `mô hình object detect`
-> Chúng tôi sử dụng hai mô hình của bài toán object detect để thực nghiệm với đề tài này đó là mô hình YOLO và Faster RCNN với các thay đổi khi thực nghiệm. Thực hiện tạo ra hai bộ data với việc giữ nguyên và cắt bớt ảnh, ngoài ra còn có các thay đổi liên quan đến learning rate, hàm loss function trong quá trình thực nghiệm.
-> Đây là phần code demo đơn giản với nền tảng flask làm server.
+> <br>Chúng tôi sử dụng hai mô hình của bài toán object detect để thực nghiệm với đề tài này đó là mô hình YOLO và Faster RCNN với các thay đổi khi thực nghiệm. Thực hiện tạo ra hai bộ data với việc giữ nguyên và cắt bớt ảnh, ngoài ra còn có các thay đổi liên quan đến learning rate, hàm loss function trong quá trình thực nghiệm.
+> <br> Đây là phần code demo đơn giản với nền tảng flask làm server.
 
 ## ✨ Demo
 
@@ -55,6 +55,6 @@ This project is [MIT](https://github.com/ThanhTiem/autodetect_lesion/blob/master
 ---
 _ Để làm được đề tài này chúng tôi chân thành gửi lời cảm ơn sâu sắc nhất đến thầy giáo hướng dẫn TS. Lê Minh Hưng đã giúp đỡ tận tình. <br>
 _ Cảm ơn quý thầy cô trong khoa, trường đã tạo điều kiện thuận lợi nhất để chúng em có thể hoàn thành. 
-_ Mặc dù làm đồ án trong mùa dịch COVID-19 nhưng với sự giúp đỡ tận tình của mọi người đã giúp chúng em hoàn thành đề tài này. Xin chân thành cám ơn ngôi trường UIT.
-_Thanks to all ❤️  [auto detect lesion](https://github.com/ThanhTiem/autodetect_lesion)_
+<br>_ Mặc dù làm đồ án trong mùa dịch COVID-19 nhưng với sự giúp đỡ tận tình của mọi người đã giúp chúng em hoàn thành đề tài này. Xin chân thành cám ơn ngôi trường UIT.
+<br>_Thanks to all ❤️  [auto detect lesion](https://github.com/ThanhTiem/autodetect_lesion)_
 
