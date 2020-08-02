@@ -11,9 +11,23 @@ Link video demo:
 Link chứa file weights:
 
 ## 🚀  requirement
-...
-## Code Contribute
-...
+`anaconda-client==1.7.2`
+`anaconda-navigator==1.9.7`
+`anaconda-project==0.8.3`
+`conda==4.8.3`
+`conda-build==3.18.9`
+`conda-package-handling==1.6.0`
+`conda-verify==3.4.2`
+`Flask==1.1.1`
+`Keras==2.3.1`
+`opencv-python==3.4.4.19`
+`Pillow==6.2.0`
+`tensorflow==2.1.0`
+`tensorflow-estimator==2.1.0`
+
+## Code Referent
+- YOLO: https://github.com/AlexeyAB/darknet
+- FRCNN: 
 ## Author
 
 👤 **Lê Thanh Tiềm**
