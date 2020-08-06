@@ -3,7 +3,9 @@ import argparse
 import time
 import cv2
 import os
-from flask import Flask, request, Response, jsonify, render_template
+# from flask import Flask, request, Response, jsonify, render_template
+from flask import Flask, request, Response, jsonify
+from flask_cors import CORS
 import jsonpickle
 #import binascii
 import io as StringIO
@@ -29,10 +31,11 @@ nets=load_model(CFG,Weights)
 Colors=get_colors(Lables)
 # Initialize the Flask application
 app = Flask(__name__)
-@app.route('/home')
-def home():
-    return render_template('home.html')
-# route http posts to this method
+CORS(app)
+# @app.route('/home')
+# def home():
+#     return render_template('home.html')
+# # route http posts to this method
 @app.route('/api/yolo_predict', methods=['POST'])
 def yolo_predict():
     
