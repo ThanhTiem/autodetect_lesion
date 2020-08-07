@@ -3,9 +3,10 @@ import argparse
 import time
 import cv2
 import os
+import sys
 # from flask import Flask, request, Response, jsonify, render_template
 from flask import Flask, request, Response, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import jsonpickle
 #import binascii
 import io as StringIO
@@ -31,16 +32,21 @@ nets=load_model(CFG,Weights)
 Colors=get_colors(Lables)
 # Initialize the Flask application
 app = Flask(__name__)
-CORS(app)
+# CORS(app)
+
 # @app.route('/home')
 # def home():
 #     return render_template('home.html')
 # # route http posts to this method
 @app.route('/api/yolo_predict', methods=['POST'])
+@cross_origin()
 def yolo_predict():
-    
     #image = cv2.imread("./test1.jpg")
-    img = request.files["image"].read()
+    print('alo!!!!')
+    print(request.files , file=sys.stderr)
+    # img = request.files["image"].read()
+    img = request.files["img"].read()
+    print(type(img))
     img = Image.open(io.BytesIO(img))
     npimg=np.array(img)
     image=npimg.copy()
