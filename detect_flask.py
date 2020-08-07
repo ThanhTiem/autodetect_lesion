@@ -42,11 +42,20 @@ app = Flask(__name__)
 @cross_origin()
 def yolo_predict():
     #image = cv2.imread("./test1.jpg")
-    print('alo!!!!')
-    print(request.files , file=sys.stderr)
-    img = request.files["image"].read()
+    # print('alo!!!!')
+
+    # print(request.files , file=sys.stderr)
+    data = request.get_json()
+    # temp=[]
+    # param = data.get('parameters')
+    
+    response_object = dict({
+        'file' : data.get('file')
+    })
+    # img = request.files["resultResult"].read()
+    img = Image.open(BytesIO(base64.b64decode(response_object['file'])))
     print(type(img))
-    img = Image.open(io.BytesIO(img))
+    # img = Image.open(io.BytesIO(img))
     npimg=np.array(img)
     image=npimg.copy()
     image=cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
@@ -62,7 +71,7 @@ def yolo_predict():
     img_encoded=image_to_byte_array(np_img)
     img_encoded_crop=image_to_byte_array(np_img_crop)
     return Response(response=[img_encoded_crop], status=200,mimetype="image/jpeg")
-
+    
     # start flask app
 if __name__ == '__main__':
     app.run(debug=True)
