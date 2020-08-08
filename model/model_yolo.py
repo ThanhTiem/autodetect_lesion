@@ -38,11 +38,11 @@ def get_config(config_path):
     configPath = os.path.sep.join([yolo_path, config_path])
     return configPath
 
-def load_model(configpath,weightspath):
-    # load our YOLO object detector trained on COCO dataset (80 classes)
-    print("[INFO] loading YOLO from disk...")
-    net = cv2.dnn.readNetFromDarknet(configpath, weightspath)
-    return net
+# def load_model(configpath,weightspath):
+#     # load our YOLO object detector trained on COCO dataset (80 classes)
+#     print("[INFO] loading YOLO from disk...")
+#     net = cv2.dnn.readNetFromDarknet(configpath, weightspath)
+#     return net
 
 
 def image_to_byte_array(image:Image):
