@@ -13,6 +13,7 @@ from flask import (Flask, Response, flash, jsonify, redirect, render_template,
                    request, url_for)
 from PIL import Image
 from werkzeug.utils import secure_filename
+
 from frcnn.test_frcnn import detect_img
 from model.model_yolo import *
 
@@ -107,6 +108,18 @@ def uploaded_file(filename):
     return render_template("result.html", filename=filename)
 
 
+@app.route('/api/frcnn_detect', methods=['POST'])
+def frcc_predict():
+    img = request.files["image"].read()
+    img = Image.open(io.BytesIO(img))
+    img.save("mammogram.jpg")
+    detect_img("mammogram.jpg")
+    with open("mammogram.jpg", 'rb') as f:
+        string_64 = base64.b64encode(f.read())
+    f.close()
+    return jsonify(str({"name": "mammogram.jpg", "base64": string_64}))
+
+    
 @app.route('/api/yolo_predict', methods=['POST'])
 def yolo_predict():
 

@@ -313,6 +313,6 @@ def detect_img(img_name):
 
 # print("tp: {} \nfp: {}".format(tp, fp))
 
-img_name = r"D:\Desktop\thesis\Images\mass_crop_train\P_01981_RIGHT_MLO_FULL.jpg"
+# img_name = r"D:\Desktop\thesis\Images\mass_crop_train\P_01981_RIGHT_MLO_FULL.jpg"
 
-detect_img(img_name)
+# detect_img(img_name)
