@@ -1,6 +1,9 @@
-from pathlib import Path
-import os
-import pickle
+import cv2
 
-a = os.path.join(Path(__file__).absolute().parent, "final_config.pickle")
-b = pickle.load(open(a, "rb"))
+pth = "uploads\P_00005_RIGHT_CC_FULL.jpg"
+
+img = cv2.imread(pth)
+
+img_name = "hello"
+
+cv2.imwrite('static\\images\\{}.png'.format(img_name), img)

@@ -13,7 +13,7 @@ from flask import (Flask, Response, flash, jsonify, redirect, render_template,
                    request, url_for)
 from PIL import Image
 from werkzeug.utils import secure_filename
-
+from frcnn.test_frcnn import detect_img
 from model.model_yolo import *
 
 confthres = 0.3
@@ -36,6 +36,32 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
+def frcnn_detect(img_name):
+    use_horizontal_flips = False
+    use_vertical_flips = False
+    rot_90 = False
+    im_size = 600
+    anchor_box_scales = [64, 128, 256, 512]
+    anchor_box_ratios = [[1, 1], [1, 2], [2, 1]]
+    im_size = 600
+    img_channel_mean = [103.939, 116.779, 123.68]
+    img_scaling_factor = 1.0
+    num_rois = 4
+    rpn_stride = 16
+    balanced_classes = False
+    std_scaling = 4.0
+    classifier_regr_std = [8.0, 8.0, 4.0, 4.0]
+    rpn_min_overlap = 0.3
+    rpn_max_overlap = 0.7
+    classifier_min_overlap = 0.1
+    classifier_max_overlap = 0.5
+    class_mapping = {'MALIGNANT': 0, 'BENIGN': 1, 'bg': 2}
+
+    detected_img = detect_img(img_name)
+
+    return detected_img
 
 
 @app.route('/')
@@ -64,8 +90,11 @@ def upload_file():
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            file.save(os.path.join("static", "images", filename))
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(file_path)
+            filename = detect_img(file_path)
+            # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            # file.save(os.path.join("static", "images", filename))
             return redirect(url_for('uploaded_file',
                                     filename=filename))
 

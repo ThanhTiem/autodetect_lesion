@@ -1,7 +1,7 @@
 import numpy as np
 import pdb
 import math
-import data_generators
+import frcnn.data_generators
 import copy
 
 
