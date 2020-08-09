@@ -64,7 +64,7 @@ def augment(img_data, config, augment=True):
 					bbox['x1'] = rows - y2
 					bbox['x2'] = rows - y1
 					bbox['y1'] = x1
-					bbox['y2'] = x2        
+					bbox['y2'] = x2
 				elif angle == 0:
 					pass
 

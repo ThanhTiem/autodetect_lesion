@@ -13,8 +13,8 @@ from keras.layers import Input, Add, Dense, Activation, Flatten, Convolution2D, 
 
 from keras import backend as K
 
-from keras_frcnn.RoiPoolingConv import RoiPoolingConv
-from keras_frcnn.FixedBatchNormalization import FixedBatchNormalization
+from RoiPoolingConv import RoiPoolingConv
+from FixedBatchNormalization import FixedBatchNormalization
 
 def get_weight_path():
     if K.image_dim_ordering() == 'th':
@@ -33,12 +33,12 @@ def get_img_output_length(width, height):
             input_length = (input_length - filter_size + stride) // stride
         return input_length
 
-    return get_output_length(width), get_output_length(height) 
+    return get_output_length(width), get_output_length(height)
 
 def identity_block(input_tensor, kernel_size, filters, stage, block, trainable=True):
 
     nb_filter1, nb_filter2, nb_filter3 = filters
-    
+
     if K.image_dim_ordering() == 'tf':
         bn_axis = 3
     else:

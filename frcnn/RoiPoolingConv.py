@@ -63,7 +63,7 @@ class RoiPoolingConv(Layer):
             y = rois[0, roi_idx, 1]
             w = rois[0, roi_idx, 2]
             h = rois[0, roi_idx, 3]
-            
+
             row_length = w / float(self.pool_size)
             col_length = h / float(self.pool_size)
 
@@ -87,7 +87,7 @@ class RoiPoolingConv(Layer):
 
                         x2 = x1 + K.maximum(1,x2-x1)
                         y2 = y1 + K.maximum(1,y2-y1)
-                        
+
                         new_shape = [input_shape[0], input_shape[1],
                                      y2 - y1, x2 - x1]
 
@@ -114,8 +114,8 @@ class RoiPoolingConv(Layer):
             final_output = K.permute_dimensions(final_output, (0, 1, 2, 3, 4))
 
         return final_output
-    
-    
+
+
     def get_config(self):
         config = {'pool_size': self.pool_size,
                   'num_rois': self.num_rois}

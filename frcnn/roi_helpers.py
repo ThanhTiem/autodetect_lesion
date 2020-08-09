@@ -1,25 +1,28 @@
 import numpy as np
 import pdb
 import math
-from . import data_generators
+import data_generators
 import copy
 
 
-def calc_iou(R, img_data, C, class_mapping):
+def calc_iou(R, img_data, rpn_stride, im_size,
+             classifier_max_overlap, classifier_min_overlap,
+			 classifier_regr_std,
+             class_mapping):
 
 	bboxes = img_data['bboxes']
 	(width, height) = (img_data['width'], img_data['height'])
 	# get image dimensions for resizing
-	(resized_width, resized_height) = data_generators.get_new_img_size(width, height, C.im_size)
+	(resized_width, resized_height) = data_generators.get_new_img_size(width, height, im_size)
 
 	gta = np.zeros((len(bboxes), 4))
 
 	for bbox_num, bbox in enumerate(bboxes):
 		# get the GT box coordinates, and resize to account for image resizing
-		gta[bbox_num, 0] = int(round(bbox['x1'] * (resized_width / float(width))/C.rpn_stride))
-		gta[bbox_num, 1] = int(round(bbox['x2'] * (resized_width / float(width))/C.rpn_stride))
-		gta[bbox_num, 2] = int(round(bbox['y1'] * (resized_height / float(height))/C.rpn_stride))
-		gta[bbox_num, 3] = int(round(bbox['y2'] * (resized_height / float(height))/C.rpn_stride))
+		gta[bbox_num, 0] = int(round(bbox['x1'] * (resized_width / float(width))/rpn_stride))
+		gta[bbox_num, 1] = int(round(bbox['x2'] * (resized_width / float(width))/rpn_stride))
+		gta[bbox_num, 2] = int(round(bbox['y1'] * (resized_height / float(height))/rpn_stride))
+		gta[bbox_num, 3] = int(round(bbox['y2'] * (resized_height / float(height))/rpn_stride))
 
 	x_roi = []
 	y_class_num = []
@@ -42,7 +45,7 @@ def calc_iou(R, img_data, C, class_mapping):
 				best_iou = curr_iou
 				best_bbox = bbox_num
 
-		if best_iou < C.classifier_min_overlap:
+		if best_iou < classifier_min_overlap:
 				continue
 		else:
 			w = x2 - x1
@@ -50,10 +53,10 @@ def calc_iou(R, img_data, C, class_mapping):
 			x_roi.append([x1, y1, w, h])
 			IoUs.append(best_iou)
 
-			if C.classifier_min_overlap <= best_iou < C.classifier_max_overlap:
+			if classifier_min_overlap <= best_iou < classifier_max_overlap:
 				# hard negative example
 				cls_name = 'bg'
-			elif C.classifier_max_overlap <= best_iou:
+			elif classifier_max_overlap <= best_iou:
 				cls_name = bboxes[best_bbox]['class']
 				cxg = (gta[best_bbox, 0] + gta[best_bbox, 1]) / 2.0
 				cyg = (gta[best_bbox, 2] + gta[best_bbox, 3]) / 2.0
@@ -77,7 +80,7 @@ def calc_iou(R, img_data, C, class_mapping):
 		labels = [0] * 4 * (len(class_mapping) - 1)
 		if cls_name != 'bg':
 			label_pos = 4 * class_num
-			sx, sy, sw, sh = C.classifier_regr_std
+			sx, sy, sw, sh = classifier_regr_std
 			coords[label_pos:4+label_pos] = [sx*tx, sy*ty, sw*tw, sh*th]
 			labels[label_pos:4+label_pos] = [1, 1, 1, 1]
 			y_class_regr_coords.append(copy.deepcopy(coords))
@@ -220,12 +223,16 @@ def non_max_suppression_fast(boxes, probs, overlap_thresh=0.9, max_boxes=300):
 	return boxes, probs
 
 import time
-def rpn_to_roi(rpn_layer, regr_layer, C, dim_ordering, use_regr=True, max_boxes=300,overlap_thresh=0.9):
 
-	regr_layer = regr_layer / C.std_scaling
+def rpn_to_roi(rpn_layer, regr_layer,
+              anchor_box_scales, anchor_box_ratios,
+			  std_scaling, rpn_stride,
+			  dim_ordering, use_regr=True, max_boxes=300,overlap_thresh=0.9):
 
-	anchor_sizes = C.anchor_box_scales
-	anchor_ratios = C.anchor_box_ratios
+	regr_layer = regr_layer / std_scaling
+
+	anchor_sizes = anchor_box_scales
+	anchor_ratios = anchor_box_ratios
 
 	assert rpn_layer.shape[0] == 1
 
@@ -244,8 +251,8 @@ def rpn_to_roi(rpn_layer, regr_layer, C, dim_ordering, use_regr=True, max_boxes=
 	for anchor_size in anchor_sizes:
 		for anchor_ratio in anchor_ratios:
 
-			anchor_x = (anchor_size * anchor_ratio[0])/C.rpn_stride
-			anchor_y = (anchor_size * anchor_ratio[1])/C.rpn_stride
+			anchor_x = (anchor_size * anchor_ratio[0])/rpn_stride
+			anchor_y = (anchor_size * anchor_ratio[1])/rpn_stride
 			if dim_ordering == 'th':
 				regr = regr_layer[0, 4 * curr_layer:4 * curr_layer + 4, :, :]
 			else:
