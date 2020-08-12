@@ -17,8 +17,6 @@ nmsthres = 0.1
 yolo_path = './'
 
 def get_labels(labels_path):
-    # load the COCO class labels our YOLO model was trained on
-    #labelsPath = os.path.sep.join([yolo_path, "yolo_v3/coco.names"])
     lpath=os.path.sep.join([yolo_path, labels_path])
     LABELS = open(lpath).read().strip().split("\n")
     return LABELS
@@ -47,7 +45,7 @@ def load_model(configpath,weightspath):
 
 def image_to_byte_array(image:Image):
   imgByteArr = io.BytesIO()
-  image.save(imgByteArr, format='PNG')
+  image.save(imgByteArr, format='jpeg')
   imgByteArr = imgByteArr.getvalue()
   return imgByteArr
 
@@ -116,7 +114,7 @@ def get_predection(image,net,LABELS,COLORS):
     # boxes
     idxs = cv2.dnn.NMSBoxes(boxes, confidences, confthres,
                             nmsthres)
-
+    text = ''
     # ensure at least one detection exists
     if len(idxs) > 0:
         # loop over the indexes we are keeping
@@ -124,13 +122,14 @@ def get_predection(image,net,LABELS,COLORS):
             # extract the bounding box coordinates
             (x, y) = (boxes[i][0], boxes[i][1])
             (w, h) = (boxes[i][2], boxes[i][3])
-            img_crop = image[y-20:y+h+5, x-20:x+w+5]
+            # img_crop = image[y-20:y+h+5, x-20:x+w+5]
             # draw a bounding box rectangle and label on the image
             color = [int(c) for c in COLORS[classIDs[i]]]
-            cv2.rectangle(image, (x, y), (x + w, y + h), color, 2)
+            cv2.rectangle(image, (x, y), (x + w, y + h), color, 3)
             text = "{}: {:.4f}".format(LABELS[classIDs[i]], confidences[i])
             print(boxes)
             print(classIDs)
-            cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX,0.5, color, 2)
-    return image, img_crop
+            cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX,0.5, color,2)
+    print('text',text )
+    return image, text
 

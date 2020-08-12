@@ -117,9 +117,8 @@ def get_predection(image,net,LABELS,COLORS):
             text = "{}: {:.4f}".format(LABELS[classIDs[i]], confidences[i])
             # print(boxes)
             # print(classIDs)
-            cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX,0.5, color, 2)
-            
-    return image, img_crop
+            cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX,0.5, color, 2)      
+    return image, text
 
 def main():
     # load our input image and grab its spatial dimensions
