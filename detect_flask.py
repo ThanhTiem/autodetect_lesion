@@ -113,13 +113,18 @@ def frcc_predict():
     img = request.files["image"].read()
     img = Image.open(io.BytesIO(img))
     img.save("mammogram.jpg")
-    detect_img("mammogram.jpg")
+    name, det = detect_img("mammogram.jpg")
     with open("mammogram.jpg", 'rb') as f:
         string_64 = base64.b64encode(f.read())
     f.close()
-    return jsonify(str({"name": "mammogram.jpg", "base64": string_64}))
+    return jsonify(str({
+        "name": "mammogram.jpg",
+        "base64": string_64,
+        "label": det[0],
+        "conf": str(det[1])
+        }))
 
-    
+
 @app.route('/api/yolo_predict', methods=['POST'])
 def yolo_predict():
 
