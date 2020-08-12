@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link href=r"D:\DDSM_KhoaLuanTN\APP_detect\FLASK_API\font\bootstrap.min.css"
+    <link href="../static/bootstrap.min.css"
           rel="stylesheet">
-    <p style="text-align:center;"><img src="logo-uit.png" ></p>
+    <p style="text-align:center;"><img src="../static/logo-uit.png" ></p>
   </head>
   <body>
     <div class="container">
@@ -12,11 +12,11 @@
       </div>
       <hr/>
       <div>
-      <img src={{filename}}>
+      <img src={{filename}} width="500px">
       </div>
 	<hr>
 	<div>
-	{{ result_text}}
+	{{result_text}}
 	</div>
     </div>
   </body>

@@ -1,33 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link href="../font/bootstrap.min.css"rel="stylesheet">
-    <link href="../font/sidebar.scss" rel="stylesheet">
-    <p style="text-align:center;"><img src="../mAP.png" ></p>
+    <link href="../static/bootstrap.min.css"
+          rel="stylesheet">
+    <p style="text-align:center;"><img src="../static/logo-uit.png" ></p>
   </head>
   <body>
-    <nav class="sidebar sidebar-offcanvas" id="sidebar">
-      <ul class="nav">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
-            <i class="menu-icon mdi mdi-television"></i>
-            <span class="menu-title">Dashboard</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/cluster" routerLinkActive="active">
-            <i class="menu-icon fa fa-server" aria-hidden="true"></i>
-            <span class="menu-title">Detect lesion</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/storage" routerLinkActive="active">
-            <i class="menu-icon fas fa-box"></i>
-            <span class="menu-title">User</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
-    
+    <div class="container">
+      <div class="header">
+        <h3 class="text-muted">Choose an image to recognize</h3>
+      </div>
+      <hr/>
+      <div>
+
+      <form method="post" enctype="multipart/form-data">
+        <input type="file" name="file"><br /><br />
+        <input type="submit" value="Upload">
+      </form>
+      </div>
+    </div>
   </body>
 </html>
