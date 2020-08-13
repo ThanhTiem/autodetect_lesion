@@ -39,7 +39,7 @@ CFG=get_config(cfgpath)
 Weights=get_weights(wpath)
 nets=load_model(CFG,Weights)
 Colors=get_colors(Lables)
-# Initialize the Flask application
+Initialize the Flask application
 
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -50,30 +50,30 @@ CORS(app)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-def frcnn_detect(img_name):
-    use_horizontal_flips = False
-    use_vertical_flips = False
-    rot_90 = False
-    im_size = 600
-    anchor_box_scales = [64, 128, 256, 512]
-    anchor_box_ratios = [[1, 1], [1, 2], [2, 1]]
-    im_size = 600
-    img_channel_mean = [103.939, 116.779, 123.68]
-    img_scaling_factor = 1.0
-    num_rois = 4
-    rpn_stride = 16
-    balanced_classes = False
-    std_scaling = 4.0
-    classifier_regr_std = [8.0, 8.0, 4.0, 4.0]
-    rpn_min_overlap = 0.3
-    rpn_max_overlap = 0.7
-    classifier_min_overlap = 0.1
-    classifier_max_overlap = 0.5
-    class_mapping = {'MALIGNANT': 0, 'BENIGN': 1, 'bg': 2}
+# def frcnn_detect(img_name):
+#     use_horizontal_flips = False
+#     use_vertical_flips = False
+#     rot_90 = False
+#     im_size = 600
+#     anchor_box_scales = [64, 128, 256, 512]
+#     anchor_box_ratios = [[1, 1], [1, 2], [2, 1]]
+#     im_size = 600
+#     img_channel_mean = [103.939, 116.779, 123.68]
+#     img_scaling_factor = 1.0
+#     num_rois = 4
+#     rpn_stride = 16
+#     balanced_classes = False
+#     std_scaling = 4.0
+#     classifier_regr_std = [8.0, 8.0, 4.0, 4.0]
+#     rpn_min_overlap = 0.3
+#     rpn_max_overlap = 0.7
+#     classifier_min_overlap = 0.1
+#     classifier_max_overlap = 0.5
+#     class_mapping = {'MALIGNANT': 0, 'BENIGN': 1, 'bg': 2}
 
-    detected_img = detect_img(img_name)
+#     detected_img = detect_img(img_name)
 
-    return detected_img
+#     return detected_img
 
 
 # @app.route('/')
@@ -135,7 +135,8 @@ def frcc_predict():
     with open("mammogram.jpg", 'rb') as f:
         string_64 = base64.b64encode(f.read())
     f.close()
-    text = "{}: {:.4f}".format(det[0] , str(det[1]))
+    text = "{}: {}".format(det[0], str(det[1]))
+    print(text)
     return jsonify(str({
         "base64": string_64,
         "label": text

@@ -66,6 +66,21 @@ def get_real_coordinates(ratio, x1, y1, x2, y2):
     return (real_x1, real_y1, real_x2 ,real_y2)
 
 
+def get_model(model_path, model_rpn, model_classifier):
+    # model_path = "D:\\autodetect_lesion\\frcnn\\model_final_1.hdf5"
+    print('Loading weights from {}'.format(model_path))
+    model_rpn.load_weights(model_path, by_name=True)
+    model_classifier.load_weights(model_path, by_name=True)
+
+    model_rpn.compile(optimizer='sgd', loss='mse')
+    model_classifier.compile(optimizer='sgd', loss='mse')
+
+    model_rpn._make_predict_function()
+    model_classifier._make_predict_function()
+
+    return model_rpn, model_classifier
+
+
 
 def detect_img(img_name):
 
@@ -125,12 +140,13 @@ def detect_img(img_name):
     model_classifier = Model([feature_map_input, roi_input], classifier)
 
     model_path = "D:\\autodetect_lesion\\frcnn\\model_final_1.hdf5"
-    print('Loading weights from {}'.format(model_path))
-    model_rpn.load_weights(model_path, by_name=True)
-    model_classifier.load_weights(model_path, by_name=True)
+    # print('Loading weights from {}'.format(model_path))
+    # model_rpn.load_weights(model_path, by_name=True)
+    # model_classifier.load_weights(model_path, by_name=True)
 
-    model_rpn.compile(optimizer='sgd', loss='mse')
-    model_classifier.compile(optimizer='sgd', loss='mse')
+    # model_rpn.compile(optimizer='sgd', loss='mse')
+    # model_classifier.compile(optimizer='sgd', loss='mse')
+    model_rpn, model_classifier = get_model(model_path, model_rpn, model_classifier)
 
     all_imgs = []
 
@@ -234,7 +250,7 @@ def detect_img(img_name):
             cv2.putText(img, textLabel, textOrg, cv2.FONT_HERSHEY_DUPLEX, 1, (0, 0, 0), 1)
 
     # print('Elapsed time = {}'.format(time.time() - st))
-    print(all_dets)
+    # print(all_dets)
     # cv2.imshow('img', img)
     # cv2.waitKey(0)
     img_name = img_name.split('\\')[-1]
@@ -244,6 +260,7 @@ def detect_img(img_name):
     except:
         a = ("khong phat hien", "khong phat hien")
 
+    print(a)
     return img_name, a
 
 # print("tp: {} \nfp: {}".format(tp, fp))
