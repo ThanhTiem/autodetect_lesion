@@ -135,9 +135,10 @@ def frcc_predict():
     with open("mammogram.jpg", 'rb') as f:
         string_64 = base64.b64encode(f.read())
     f.close()
+    text = "{}: {:.4f}".format(det[0] , str(det[1]))   
     return jsonify(str({
         "base64": string_64,
-        "label": det[0] + ' '+ str(det[1])
+        "label": text 
         }))
 
 @app.route('/api/yoloPredict', methods=['POST'])

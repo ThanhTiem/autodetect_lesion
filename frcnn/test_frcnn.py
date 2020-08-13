@@ -97,7 +97,7 @@ def detect_img(img_name):
     class_to_color = {class_mapping[v]: np.random.randint(0, 255, 3) for v in class_mapping}
 
     num_features = 1024
-
+# K.image_data_format() == 'channels_first'
     if K.image_dim_ordering() == 'th':
         input_shape_img = (3, None, None)
         input_shape_features = (num_features, None, None)
@@ -124,7 +124,7 @@ def detect_img(img_name):
 
     model_classifier = Model([feature_map_input, roi_input], classifier)
 
-    model_path = "../frcnn/model_final_1.hdf5"
+    model_path = "frcnn/model_final_1.hdf5"
     print('Loading weights from {}'.format(model_path))
     model_rpn.load_weights(model_path, by_name=True)
     model_classifier.load_weights(model_path, by_name=True)
@@ -238,7 +238,7 @@ def detect_img(img_name):
     # cv2.imshow('img', img)
     # cv2.waitKey(0)
     img_name = img_name.split('\\')[-1]
-    cv2.imwrite(f'../static/images/{img_name}.png', img)
+    cv2.imwrite(f'static/images/{img_name}.png', img)
 
     return img_name, all_dets[0]
 
