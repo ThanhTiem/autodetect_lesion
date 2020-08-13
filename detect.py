@@ -117,7 +117,8 @@ def get_predection(image,net,LABELS,COLORS):
             text = "{}: {:.4f}".format(LABELS[classIDs[i]], confidences[i])
             # print(boxes)
             # print(classIDs)
-            cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX,0.5, color, 2)      
+            # cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX,0.5, color, 2) 
+            cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_DUPLEX, 1, (0, 0, 0), 1)     
     return image, text
 
 def main():

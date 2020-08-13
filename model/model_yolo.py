@@ -126,6 +126,8 @@ def get_predection(image,net,LABELS,COLORS):
             # draw a bounding box rectangle and label on the image
             color = [int(c) for c in COLORS[classIDs[i]]]
             cv2.rectangle(image, (x, y), (x + w, y + h), color, 3)
+            # cv2.rectangle(image,  (x, y), (x + w, y + h), (0, 0, 0), 2)
+            # cv2.rectangle(image,  (x, y-10), (x + 10, y + 30), (255, 255, 255), -1)
             text = "{}: {:.4f}".format(LABELS[classIDs[i]], confidences[i])
             print(boxes)
             print(classIDs)

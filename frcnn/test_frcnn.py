@@ -66,6 +66,21 @@ def get_real_coordinates(ratio, x1, y1, x2, y2):
     return (real_x1, real_y1, real_x2 ,real_y2)
 
 
+def get_model(model_path, model_rpn, model_classifier):
+    # model_path = "D:\\autodetect_lesion\\frcnn\\model_final_1.hdf5"
+    print('Loading weights from {}'.format(model_path))
+    model_rpn.load_weights(model_path, by_name=True)
+    model_classifier.load_weights(model_path, by_name=True)
+
+    model_rpn.compile(optimizer='sgd', loss='mse')
+    model_classifier.compile(optimizer='sgd', loss='mse')
+
+    model_rpn._make_predict_function()
+    model_classifier._make_predict_function()
+
+    return model_rpn, model_classifier
+
+
 
 def detect_img(img_name):
 
@@ -97,7 +112,7 @@ def detect_img(img_name):
     class_to_color = {class_mapping[v]: np.random.randint(0, 255, 3) for v in class_mapping}
 
     num_features = 1024
-# K.image_data_format() == 'channels_first'
+
     if K.image_dim_ordering() == 'th':
         input_shape_img = (3, None, None)
         input_shape_features = (num_features, None, None)
@@ -124,13 +139,14 @@ def detect_img(img_name):
 
     model_classifier = Model([feature_map_input, roi_input], classifier)
 
-    model_path = "frcnn/model_final_1.hdf5"
-    print('Loading weights from {}'.format(model_path))
-    model_rpn.load_weights(model_path, by_name=True)
-    model_classifier.load_weights(model_path, by_name=True)
+    model_path = "frcnn\\model_final_1.hdf5"
+    # print('Loading weights from {}'.format(model_path))
+    # model_rpn.load_weights(model_path, by_name=True)
+    # model_classifier.load_weights(model_path, by_name=True)
 
-    model_rpn.compile(optimizer='sgd', loss='mse')
-    model_classifier.compile(optimizer='sgd', loss='mse')
+    # model_rpn.compile(optimizer='sgd', loss='mse')
+    # model_classifier.compile(optimizer='sgd', loss='mse')
+    model_rpn, model_classifier = get_model(model_path, model_rpn, model_classifier)
 
     all_imgs = []
 
@@ -234,13 +250,19 @@ def detect_img(img_name):
             cv2.putText(img, textLabel, textOrg, cv2.FONT_HERSHEY_DUPLEX, 1, (0, 0, 0), 1)
 
     # print('Elapsed time = {}'.format(time.time() - st))
-    print(all_dets)
+    # print(all_dets)
     # cv2.imshow('img', img)
     # cv2.waitKey(0)
     img_name = img_name.split('\\')[-1]
-    cv2.imwrite(f'static/images/{img_name}.png', img)
+    # cv2.imwrite(f'./static/images/{img_name}.png', img)
+    cv2.imwrite('./predict/kq.jpg', img)
+    try:
+        a = all_dets[0]
+    except:
+        a = ("khong phat hien", "khong phat hien")
 
-    return img_name, all_dets[0]
+    print(a)
+    return img_name, a
 
 # print("tp: {} \nfp: {}".format(tp, fp))
 

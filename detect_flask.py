@@ -132,14 +132,16 @@ def frcc_predict():
     image=Image.fromarray(image)
     image.save("mammogram.jpg")
     name, det = detect_img("mammogram.jpg")
-    with open("mammogram.jpg", 'rb') as f:
+    with open("./predict/kq.jpg", 'rb') as f:
         string_64 = base64.b64encode(f.read())
+        string_64 = string_64.decode('utf-8')
     f.close()
-    text = "{}: {:.4f}".format(det[0] , str(det[1]))   
-    return jsonify(str({
+    text = "{}: {:.4f}".format(det[0] , str(det[1])) 
+    print(text)  
+    return jsonify({
         "base64": string_64,
         "label": text 
-        }))
+        })
 
 @app.route('/api/yoloPredict', methods=['POST'])
 @cross_origin()

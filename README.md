@@ -1,4 +1,4 @@
-<h1 align="center">Chào mừng đến với app Hệ Thống Nhận Diện Tổn Thương Ung Thư Vú Trên Nhũ Ảnh 👋</h1>
+<h1 align="center">Hệ Thống Nhận Diện Tổn Thương Ung Thư Vú Trên Nhũ Ảnh 👋</h1>
 
 > Hệ thống tự động nhận diện tổn thương ung thư vú dựa trên nhũ ảnh<br /> `Sử dụng deep learning` `mô hình object detect`
 > <br>Chúng tôi sử dụng hai mô hình của bài toán object detect để thực nghiệm với đề tài này đó là mô hình YOLO và Faster RCNN với các thay đổi khi thực nghiệm. Thực hiện tạo ra hai bộ data với việc giữ nguyên và cắt bớt ảnh, ngoài ra còn có các thay đổi liên quan đến learning rate, hàm loss function trong quá trình thực nghiệm.
