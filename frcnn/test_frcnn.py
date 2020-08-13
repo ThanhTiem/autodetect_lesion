@@ -239,8 +239,12 @@ def detect_img(img_name):
     # cv2.waitKey(0)
     img_name = img_name.split('\\')[-1]
     cv2.imwrite(f'D:\\autodetect_lesion\\static\\images\\{img_name}.png', img)
+    try:
+        a = all_dets[0]
+    except:
+        a = ("khong phat hien", "khong phat hien")
 
-    return img_name, all_dets[0]
+    return img_name, a
 
 # print("tp: {} \nfp: {}".format(tp, fp))
 
