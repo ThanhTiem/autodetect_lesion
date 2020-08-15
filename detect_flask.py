@@ -33,7 +33,7 @@ yolo_path = './'
 
 labelsPath="obj.names"
 cfgpath="cfg/yolov3_nocrop.cfg"
-wpath="weight/yolov3_nocrop.weights"
+wpath="weight/yolov3_crop.weights"
 Lables=get_labels(labelsPath)
 CFG=get_config(cfgpath)
 Weights=get_weights(wpath)

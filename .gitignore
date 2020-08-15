@@ -12,8 +12,8 @@ bin-release/
 *.air
 *.ipa
 *.apk
-*.weights
-*.hdf5
+# *.weights
+# *.hdf5
 *.pyc
 
 # Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
